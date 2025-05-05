@@ -1,0 +1,68 @@
+:root {
+    --app-color: #81D5FF;
+    --app-white: #FEFEFE;
+    --app-grey: #868686;
+    --app-color-variant: #4E9BC2;
+    --app-color-dark: #2C4957;
+    --app-fade: linear-gradient(171deg, var(--app-color), var(--app-color-x));
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 0px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.customStyle {
+    height: -webkit-fill-available;
+}
+
+.bubble{
+    border: solid 3px var(--app-color);
+    border-radius: 26px;
+    height: fit-content;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--app-color);
+    --bs-btn-border-color: var(--app-color);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--app-color-variant);
+    --bs-btn-hover-border-color: var(--app-color-variant);
+    --bs-btn-focus-shadow-rgb: var(--app-color-variant);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--app-color-variant);
+    --bs-btn-active-border-color: var(--app-color-variant);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--app-color-variant);
+    --bs-btn-disabled-border-color: var(--app-color-variant);
+    border-radius: 26px;
+}
