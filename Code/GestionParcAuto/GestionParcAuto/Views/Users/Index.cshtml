@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Gestion des utilisateurs";
+}
+
+<div>
+    <h1>@ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-action="Create">Ajouter un utilisateur</a>
+    <table class="customTable" id="usersTable">
+    </table>
+</div>
+
+@section Links {
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.css" rel="stylesheet" integrity="sha384-e1+ByJTaytMT6Htvt7psIDKBlPeVIFAsiuLxwwn4Pkdy+IBdg1VxtkwXV00zylkJ" crossorigin="anonymous">
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.js" integrity="sha384-HKgG2rDvMdhDpBvNEKozdvGNQ/JWALSwHW9SP/fdCG0JMLdjYg1cLktf9jf+a5RJ" crossorigin="anonymous"></script>
+
+    <script>
+        var table;
+        $(document).ready(function() {
+            table = $('#usersTable').DataTable({
+                rowId: 'id',
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json',
+                },
+                ajax: {
+                    url: '/Users/GetUsers',
+                    dataSrc:'',
+                    type: 'GET'
+                },
+                columnDefs: [
+                    {
+                        target: 0,
+                        data: "fullName",
+                        title: "Nom"
+                    },
+                    {
+                        target: 1,
+                        data: "email",
+                        title: "email"
+                    },
+                    {
+                        target: 2,
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                                        return '<a href="#" class="text-danger" onclick="removeUser(\'' + data + '\')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg></a>';
+                        }
+                    }
+                ]
+
+            });
+        })
+
+        function removeUser(id){
+            Swal.fire({
+                title: "Voulez-vous supprimer l'utilisateur ?",
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Oui"
+            }).then(result =>{
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: '/User/RemoveUser',
+                        data: {
+                            id: id,
+                        },
+                        type: "POST",
+                        success: function (data){
+                            table.ajax.reload(null, false);
+                            Swal.fire(data.message);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

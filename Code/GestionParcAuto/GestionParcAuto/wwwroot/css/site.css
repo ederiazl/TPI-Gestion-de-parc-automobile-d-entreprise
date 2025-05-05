@@ -39,10 +39,49 @@ body {
   text-align: start;
 }
 
-.customStyle {
-    height: -webkit-fill-available;
+table tr:first-child th:first-child {
+    border-top-left-radius: 16px;
 }
 
+table tr:first-child th:last-child {
+    border-top-right-radius: 16px;
+}
+
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 16px;
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 16px;
+}
+
+table td, table th {
+    padding: 8px;
+}
+
+table {
+    box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
+    -webkit-box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
+    -moz-box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
+}
+
+.selectTable, .customTable {
+    border-collapse: collapse;
+    border-radius: 15px;
+}
+
+.selectTable tbody tr:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.customTable tbody tr:nth-child(even) {
+    background: #ccc;
+}
+
+.selectTable thead, .customTable thead {
+    background-color: var(--app-color);
+}
 .bubble{
     border: solid 3px var(--app-color);
     border-radius: 26px;
