@@ -7,6 +7,7 @@ using GestionParcAuto.Classes;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.Extensions.FileProviders;
 
 namespace GestionParcAuto.Controllers
 {
@@ -37,6 +38,19 @@ namespace GestionParcAuto.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            User? user = _userManager.FindByIdAsync(id).Result;
+
+            if (user == null) 
+                return NotFound();
+            List<string> roles = _userManager.GetRolesAsync(user).Result.ToList();
+
+            EditUserViewModel model = new EditUserViewModel() { Id = user.Id, Email = user.Email, Name = user.Name, Surname = user.Surname, CheckAdmin = roles.Contains("Admin"), CheckEmployee = roles.Contains("Employee") };
+            return View(model);
         }
 
         #region Data
@@ -99,9 +113,40 @@ namespace GestionParcAuto.Controllers
                 return View(vm);
             }
 
-            ViewBag.Message = new Message { Title = "Création d'un utilisateur", Text = "L'utilisateur à été créée avec succès." };
+            //Attributing roles
+            if (vm.CheckAdmin)
+                _userManager.AddToRoleAsync(user, "Admin");
+            if (vm.CheckEmployee)
+                _userManager.AddToRoleAsync(user, "Employee");
 
-            return View("Index");
+            return RedirectToAction("Index", new Message { Title = "Création d'un utilisateur", Text = "L'utilisateur à été créée avec succès." });
+        }
+        
+        [HttpPost]
+        public IActionResult Edit(EditUserViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            User? user = _userManager.FindByIdAsync(vm.Id).Result;
+            List<IdentityRole> roles = _roleManager.Roles.ToList();
+
+            if (user == null)
+                return NotFound();
+
+            if (vm.CheckAdmin)
+                _userManager.AddToRoleAsync(user, "Admin");
+            else
+                _userManager.RemoveFromRoleAsync(user, "Admin");
+
+            if (vm.CheckEmployee)
+                _userManager.AddToRoleAsync(user, "Employee");
+            else
+                _userManager.RemoveFromRoleAsync(user, "Employee");
+
+            return RedirectToAction("Index", new Message { Title = "Modification de l'utilisateur", Text = "L'utilisateur à été modifié avec succès." });
         }
 
         #endregion
