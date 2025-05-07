@@ -2,6 +2,11 @@
 using GestionParcAuto.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using GestionParcAuto.ViewModels;
+using GestionParcAuto.Classes;
+using System.Text;
+using System.Xml.Linq;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace GestionParcAuto.Controllers
 {
@@ -23,6 +28,12 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         #region Data
 
         public async Task<IActionResult> GetUsers()
@@ -36,6 +47,9 @@ namespace GestionParcAuto.Controllers
 
         public async Task<IActionResult> RemoveUser(string id)
         {
+            if (id == _userManager.GetUserId(this.User))
+                throw new Exception("Impossible de supprimer l'utilisateur actuel.");
+
             User? user = await _userManager.FindByIdAsync(id);
 
             if(user != null) 
@@ -48,6 +62,27 @@ namespace GestionParcAuto.Controllers
                 Success = true,
                 Message = "Utilisateur retiré avec succès."
             });
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateUserViewModel vm)
+        {
+            User user = new User { Name = vm.Name, Surname = vm.Surname, Email = vm.Email, UserName = vm.Email };
+            //CreateUserViewModel user = new();
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var res = Task.Run(async () => await _userManager.CreateAsync(user, vm.TempPassword)).Result;
+
+            if (!res.Succeeded)
+            {
+                return View(vm);
+            }
+
+            ViewBag.Message = new Message { Title = "Création d'un utilisateur", Text = "L'utilisateur à été créée avec succès." };
+
+            return View("Index");
         }
 
         #endregion

@@ -1,0 +1,33 @@
+﻿@model GestionParcAuto.ViewModels.CreateUserViewModel
+@{
+    ViewData["Title"] = "Ajout d'un utilisateur";
+}
+
+<div>
+    <h1>@ViewData["Title"]</h1>
+    <form asp-controller="Users" asp-action="Create" method="post">
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" aria-required="true" placeholder="E-mail" />
+            <label asp-for="Email">E-mail</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Name" class="form-control" aria-required="true" placeholder="Prénom" />
+            <label asp-for="Name"></label>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Surname" class="form-control" aria-required="true" placeholder="Nom" />
+            <label asp-for="Surname"></label>
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="TempPassword" class="form-control" aria-required="true" placeholder="Mot de passe" />
+            <label asp-for="TempPassword"></label>
+            <span asp-validation-for="TempPassword" class="text-danger"></span>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Créer</button>
+        </div>
+    </form>
+</div>

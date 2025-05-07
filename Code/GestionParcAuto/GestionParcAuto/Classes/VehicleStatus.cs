@@ -1,4 +1,4 @@
-﻿namespace TPI_GestionParcAutomobileEntreprise.Classes
+﻿namespace GestionParcAuto.Classes
 {
     public class VehicleStatus
     {

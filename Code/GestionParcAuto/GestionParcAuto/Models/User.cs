@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GestionParcAuto.Models
@@ -9,7 +10,9 @@ namespace GestionParcAuto.Models
         { 
             get => $"{Name} {Surname}"; 
         }
+        [Display(Name = "Prénom")]
         public string Name { get; set; }
+        [Display(Name = "Nom")]
         public string Surname { get; set; }
     }
 }
