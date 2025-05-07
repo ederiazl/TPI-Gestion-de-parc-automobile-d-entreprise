@@ -56,7 +56,8 @@
                 title: "Voulez-vous ajouter l'utilisateur au rôle ?",
                 showCancelButton: true,
                 cancelButtonText: "Annuler",
-                confirmButtonText: "Oui"
+                confirmButtonText: "Oui",
+                confirmButtonColor: "#81D5FF"
             }).then(result =>{
                 if(result.isConfirmed){
                     $.ajax({
@@ -68,7 +69,11 @@
                         type: "POST",
                         success: function (data){
                             table.ajax.reload(null, false);
-                            Swal.fire(data.message);
+                            Swal.fire({
+                                title: data.message,
+                                confirmButtonText: "OK",
+                                confirmButtonColor: "#81D5FF"
+                            });
                         }
                     });
                 }
