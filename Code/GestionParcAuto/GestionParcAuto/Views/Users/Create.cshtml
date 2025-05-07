@@ -26,18 +26,6 @@
             <label asp-for="TempPassword"></label>
             <span asp-validation-for="TempPassword" class="text-danger"></span>
         </div>
-        <div class="form-check">
-            <input asp-for="CheckAdmin" class="form-check-input" type="checkbox">
-            <label class="form-check-label" asp-for="CheckAdmin">
-                Administrateur
-            </label>
-        </div>
-        <div class="form-check">
-            <input asp-for="CheckEmployee" class="form-check-input" type="checkbox">
-            <label class="form-check-label" asp-for="CheckEmployee">
-                Employee
-            </label>
-        </div>
         <div class="d-flex justify-content-center">
             <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Créer</button>
         </div>
