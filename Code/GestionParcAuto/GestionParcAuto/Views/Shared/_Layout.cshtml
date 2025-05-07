@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-auto px-sm-2 px-0 bg-dark">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a asp-controller="Vehicles" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-4">Gestion de parc</span>
                     </a>
                     <hr>
@@ -26,12 +26,12 @@
                     {
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
-                                <a asp-controller="Home" asp-action="Index" class="nav-link text-white">
+                                <a asp-controller="Vehicles" asp-action="Index" class="nav-link text-white">
                                     Véhicules
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Beer" asp-action="Index" class="nav-link text-white">
+                                <a asp-controller="Expertises" asp-action="Index" class="nav-link text-white">
                                     Expertises
                                 </a>
                             </li>
@@ -49,11 +49,14 @@
                                     <a class="dropdown-item" asp-controller="Users" asp-action="Index" title="Gestion des utilisateurs">Gestion des utilisateurs</a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item" asp-controller="Roles" asp-action="Index" title="Gestion des roles">Gestion des rôles</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Vehicles", new { area = "" })">
                                         <button type="submit" class="dropdown-item">Déconnexion</button>
                                     </form>
                                 </li>
