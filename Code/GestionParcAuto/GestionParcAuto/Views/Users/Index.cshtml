@@ -90,7 +90,11 @@
                         type: "POST",
                         success: function (data){
                             table.ajax.reload(null, false);
-                            Swal.fire(data.message);
+                            Swal.fire({
+                                title: data.message,
+                                confirmButtonText: "OK",
+                                confirmButtonColor: "#81D5FF"
+                            });
                         }
                     });
                 }
