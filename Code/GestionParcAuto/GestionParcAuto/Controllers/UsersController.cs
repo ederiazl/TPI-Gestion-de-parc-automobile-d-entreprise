@@ -23,8 +23,13 @@ namespace GestionParcAuto.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Message message)
         {
+            if(message.Text != null)
+            {
+                ViewBag.Message = Json(message);
+            }
+
             return View();
         }
 
@@ -38,12 +43,26 @@ namespace GestionParcAuto.Controllers
 
         public async Task<IActionResult> GetUsers()
         {
-            return new JsonResult(_userManager.Users.Select(x => new { x.Id, x.FullName,  x.Email }).ToList());
+            List<User> Users = _userManager.Users.ToList();
+            return new JsonResult(Users.Select(x => new { x.Id, x.FullName,  x.Email, roles = _userManager.GetRolesAsync(x).Result }).ToList());
         }
 
         #endregion
 
         #region POST
+
+        public async Task<ActionResult> CreateRoles()
+        {
+            await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+
+            await _roleManager.CreateAsync(new IdentityRole { Name = "Employee" });
+
+            return new JsonResult(new
+            {
+                Success = true,
+                Message = "Utilisateur retiré avec succès."
+            });
+        }
 
         public async Task<IActionResult> RemoveUser(string id)
         {

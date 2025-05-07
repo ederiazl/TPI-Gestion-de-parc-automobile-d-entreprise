@@ -16,5 +16,7 @@ namespace GestionParcAuto.ViewModels
         [StringLength(100, ErrorMessage = "Le {0} doit faire au moins {2} et au maximum {1} caractères de long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string TempPassword { get; set; }
+        public bool CheckAdmin { get; set; }
+        public bool CheckEmployee { get; set; }
     }
 }
