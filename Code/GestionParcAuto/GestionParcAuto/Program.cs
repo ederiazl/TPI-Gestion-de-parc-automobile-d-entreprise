@@ -11,8 +11,39 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options
-    .UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString)
+    .UseAsyncSeeding(async (context, _, ct) =>
+    {
+        var userManager = context.GetService<UserManager<User>>();
+        var roleManager = context.GetService<RoleManager<IdentityRole>>();
+
+        //Create Roles
+        var roleAdminExist = await roleManager.FindByNameAsync("Admin");
+        var roleEmployeeExist = await roleManager.FindByNameAsync("Employee");
+
+        if (roleAdminExist == null)
+            await roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
+
+        if (roleEmployeeExist == null)
+            await roleManager.CreateAsync(new IdentityRole() { Name = "Employee" });
+
+        //Create user if no user created
+        var users = userManager.Users;
+        var defaultPwd = ".Admin1";
+        var defaultAdmin = new User
+        {
+            Email = "admin@GestParc.local",
+            UserName = "admin@GestParc.local",
+        };
+
+        if (users.Count() == 0)
+        {
+            await userManager.CreateAsync(defaultAdmin, defaultPwd);
+
+            await userManager.AddToRoleAsync(defaultAdmin, "Admin");
+        }
+    })
+);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -23,6 +54,12 @@ builder.Services.AddDefaultIdentity<User>()
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+await using(var serviceScope = app.Services.CreateAsyncScope())
+await using(var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+{
+    await dbContext.Database.EnsureCreatedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
