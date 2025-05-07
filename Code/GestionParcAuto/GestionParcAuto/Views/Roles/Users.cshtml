@@ -20,6 +20,9 @@
         $(document).ready(function() {
             table = $('#rolesUsersTable').DataTable({
                 rowId: 'id',
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json',
+                },
                 ajax: {
                     url: '/roles/GetUsers',
                     data: {
