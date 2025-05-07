@@ -89,7 +89,7 @@ table {
 }
 
 .btn-primary {
-    --bs-btn-color: #fff;
+    --bs-btn-color: #000;
     --bs-btn-bg: var(--app-color);
     --bs-btn-border-color: var(--app-color);
     --bs-btn-hover-color: #fff;
@@ -104,4 +104,5 @@ table {
     --bs-btn-disabled-bg: var(--app-color-variant);
     --bs-btn-disabled-border-color: var(--app-color-variant);
     border-radius: 26px;
+    
 }

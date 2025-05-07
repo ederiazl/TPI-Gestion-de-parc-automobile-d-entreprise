@@ -8,9 +8,11 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionParcAuto.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         ApplicationDbContext _context;

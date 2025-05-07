@@ -1,0 +1,78 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+@{
+    ViewData["Title"] = "Utilisateurs du rôle " + Model.Name;
+}
+<div>
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+    <a asp-action="Index">Retour à la liste</a>
+    <table class="customTable" id="rolesUsersTable">
+    </table>
+</div>
+
+@section Links {
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.css" rel="stylesheet" integrity="sha384-e1+ByJTaytMT6Htvt7psIDKBlPeVIFAsiuLxwwn4Pkdy+IBdg1VxtkwXV00zylkJ" crossorigin="anonymous">
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.js" integrity="sha384-HKgG2rDvMdhDpBvNEKozdvGNQ/JWALSwHW9SP/fdCG0JMLdjYg1cLktf9jf+a5RJ" crossorigin="anonymous"></script>
+
+    <script>
+        var table;
+        $(document).ready(function() {
+            table = $('#rolesUsersTable').DataTable({
+                rowId: 'id',
+                ajax: {
+                    url: '/roles/GetUsers',
+                    data: {
+                        id: '@Model.Id',
+                    },
+                    dataSrc:'',
+                    type: 'GET'
+                },
+                columnDefs: [
+                    {
+                        target: 0,
+                        data: "fullName",
+                        title: "Nom"
+                    },
+                    {
+                        target: 1,
+                        data: "email",
+                        title: "email"
+                    },
+                    {
+                        target: 2,
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                                    return '<a href="#" class="text-danger" onclick="removeUser(\'' + data + '\')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></a>';
+                        }
+                    }
+                ]
+
+            });
+        })
+
+        function removeUser(id){
+            Swal.fire({
+                title: "Voulez-vous retirer l'utilisateur du rôle ?",
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Oui"
+            }).then(result =>{
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: '/Roles/RemoveUser',
+                        data: {
+                            userId: id,
+                            roleId: '@Model.Id'
+                        },
+                        type: "POST",
+                        success: function (data){
+                            table.ajax.reload(null, false);
+                            Swal.fire(data.message);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
