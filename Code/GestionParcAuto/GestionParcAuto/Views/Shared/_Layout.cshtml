@@ -35,6 +35,14 @@
                                     Expertises
                                 </a>
                             </li>
+                            @if(User.IsInRole("Admin")){
+                                <li>
+                                    <a asp-controller="Users" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Gestion des utilisateurs</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Roles" asp-action="Index" class="nav-link text-white" title="Gestion des roles">Gestion des rôles</a>
+                                </li>
+                            }
                         </ul>
                     }
                     <hr>
@@ -45,12 +53,6 @@
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Users" asp-action="Index" title="Gestion des utilisateurs">Gestion des utilisateurs</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Roles" asp-action="Index" title="Gestion des roles">Gestion des rôles</a>
-                                </li>
                                 <li>
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
                                 </li>
