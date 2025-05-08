@@ -2,7 +2,8 @@
 {
     public class VehicleStatus
     {
-        public readonly char SOLD = 'S';
-        public readonly char NORMAL = 'N';
+        public static readonly char SOLD = 'S';
+        public static readonly char REPARE = 'R';
+        public static readonly char NORMAL = 'N';
     }
 }

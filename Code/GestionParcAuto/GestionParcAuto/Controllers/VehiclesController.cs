@@ -28,6 +28,31 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        public IActionResult Create()
+        {
+            var list = new List<object>() 
+            { 
+                new
+                {
+                    Val = VehicleStatus.NORMAL,
+                    Display = "Normal"
+                },
+                new
+                {
+                    Val = VehicleStatus.SOLD,
+                    Display = "Vendu"
+                },
+                new
+                {
+                    Val = VehicleStatus.REPARE,
+                    Display = "Réparation"
+                }
+            };
+            ViewBag.SelectList = new SelectList(list, "Val", "Display");
+
+            return View();
+        }
+
         #region Data
 
         public async Task<IActionResult> GetVehicles()
