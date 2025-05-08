@@ -32,7 +32,27 @@ namespace GestionParcAuto.Controllers
 
         public async Task<IActionResult> GetVehicles()
         {
-            return new JsonResult(_context.Vehicles.Select(x => new { }));
+            return new JsonResult(_context.Vehicles.Select(x => new { x.Id, x.Model, x.Registration, x.Make, x.Type, x.Mileage, x.VIN}));
+        }
+
+        #endregion
+
+        #region POST
+
+        public async Task<IActionResult> RemoveVehicle(int id)
+        {
+            Vehicle? vehicle = _context.Vehicles.Where(x => x.Id == id).First();
+
+            if (vehicle == null)
+                throw new Exception($"Unable to find vehicle with id:{id}");
+
+            _context.Vehicles.Remove(vehicle);
+
+            return new JsonResult(new
+            {
+                Success = true,
+                Message = "Véhicule supprimé avec succès."
+            });
         }
 
         #endregion
