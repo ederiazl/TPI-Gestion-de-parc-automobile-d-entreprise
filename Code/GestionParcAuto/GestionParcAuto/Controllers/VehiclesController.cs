@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using GestionParcAuto.Classes;
+using GestionParcAuto.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GestionParcAuto.Controllers
 {
@@ -14,6 +16,8 @@ namespace GestionParcAuto.Controllers
         {
             _context = context;
         }
+
+
         public IActionResult Index(Message message)
         {
             if (message.Text != null)
