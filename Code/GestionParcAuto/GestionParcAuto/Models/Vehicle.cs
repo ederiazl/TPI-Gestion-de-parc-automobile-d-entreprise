@@ -6,7 +6,7 @@ namespace GestionParcAuto.Models
     {
         public int Id { get; set; }
         [Display(Name = "Image")]
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
         [Display(Name = "Marque")]
         public string Make { get; set; }
         [Display(Name = "Modèle")]
@@ -18,10 +18,10 @@ namespace GestionParcAuto.Models
         [Display(Name = "Kilométrage")]
         public int Mileage { get; set; } //KM
         [Display(Name = "Immatriculation")]
-        public string Registration { get; set; }
+        public string? Registration { get; set; }
         [Display(Name = "VIN")]
-        public string VIN { get; set; }
+        public string? VIN { get; set; }
         [Display(Name = "Statut")]
-        public char Status { get; set; }
+        public char Status { get; set; } = 'N';
     }
 }

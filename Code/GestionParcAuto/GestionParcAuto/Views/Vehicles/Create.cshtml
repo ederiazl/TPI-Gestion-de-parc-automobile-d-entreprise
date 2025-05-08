@@ -4,9 +4,9 @@
 }
 <div>
     <h1>@ViewData["Title"]</h1>
-    <a class="mb-3" asp-action="Index">Retour à la liste</a>
-    <form asp-controller="Vehicles" asp-action="Create" method="post">
-        <div class="row">
+    <a class="mb-5" asp-action="Index">Retour à la liste</a>
+    <form asp-controller="Vehicles" asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row mb-4">
             <div class="col-4">
                 <div class="form-floating mb-3">
                     <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" />
@@ -29,10 +29,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-4">
                 <div class="form-floating mb-3">
-                    <input asp-for="RegistrationDate" class="form-control" aria-required="true" placeholder="" />
+                    <input asp-for="RegistrationDate" class="form-control" aria-required="true" placeholder="" type="date"/>
                     <label asp-for="RegistrationDate"></label>
                     <span asp-validation-for="RegistrationDate" class="text-danger"></span>
                 </div>
@@ -52,12 +52,12 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-        <div class="col-4">
-            <div class="form-floating mb-3">
-                <input asp-for="Registration" class="form-control" aria-required="true" placeholder="Immatriculation" />
-                <label asp-for="Registration"></label>
-                <span asp-validation-for="Registration" class="text-danger"></span>
+        <div class="row mb-4">
+            <div class="col-4">
+                <div class="form-floating mb-3">
+                    <input asp-for="Registration" class="form-control" aria-required="true" placeholder="Immatriculation" />
+                    <label asp-for="Registration"></label>
+                    <span asp-validation-for="Registration" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
@@ -68,9 +68,10 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="mb-3">
-                    <label asp-for="Status"></label>
-                    <select class="form-select" asp-items="@ViewBag.SelectList"></select>
+                <div class="form-floating mb-3">
+                    <select class="form-select" asp-items="@ViewBag.SelectList">
+                        <option value="@null">Statut</option>
+                    </select>
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
             </div>

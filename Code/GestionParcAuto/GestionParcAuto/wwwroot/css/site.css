@@ -106,12 +106,22 @@ table {
     border-radius: 26px;
     
 }
+
 .form-control{
-    border: 0, 0, 1px, 0;
+    border: none;
+    border-bottom: 2px solid;
     border-color: var(--app-color);
     border-radius: 0;
 }
 
-.form-control:focus{
+.form-control:focus, .form-select:focus {
     box-shadow: none;
+}
+
+.form-select{
+    
+    border: none;
+    border-bottom: 2px solid;
+    border-color: var(--app-color);
+    border-radius: 0;
 }
