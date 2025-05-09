@@ -35,6 +35,18 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        public IActionResult Edit(int id)
+        {
+            Vehicle? vm = _context.Vehicles.Where(x => x.Id == id).First();
+
+            if (vm == null)
+                return NotFound();
+
+            CreateStatusSelectList(vm.Status);
+
+            return View(vm);
+        }
+
         #region Data
 
         public async Task<IActionResult> GetVehicles()
@@ -81,6 +93,27 @@ namespace GestionParcAuto.Controllers
             }
 
             await _context.Vehicles.AddAsync(vehicle);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", new Message { Title = "Ajout d'un véhicule", Text = "Le véhicule à été ajouté avec succès." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Vehicle vehicle, IFormFile image)
+        {
+            if (image != null)
+            {
+                vehicle.Image = ReadFully(image.OpenReadStream());
+            }
+
+            if (!ModelState.IsValid)
+            {
+                CreateStatusSelectList(null);
+                return View(vehicle);
+            }
+
+            _context.Vehicles.Update(vehicle);
 
             await _context.SaveChangesAsync();
 
