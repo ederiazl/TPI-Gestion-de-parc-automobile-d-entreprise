@@ -2,82 +2,80 @@
 @{
     ViewData["Title"] = "Ajout d'un véhicule";
 }
-<div>
-    <h1>@ViewData["Title"]</h1>
-    <a class="mb-5" asp-action="Index">Retour à la liste</a>
-    <form asp-controller="Vehicles" asp-action="Create" method="post" enctype="multipart/form-data">
-        <div class="row mb-4">
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" />
-                    <label asp-for="Make"></label>
-                    <span asp-validation-for="Make" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" />
-                    <label asp-for="Model"></label>
-                    <span asp-validation-for="Model" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Type" class="form-control" aria-required="true" placeholder="Type" />
-                    <label asp-for="Type"></label>
-                    <span asp-validation-for="Type" class="text-danger"></span>
-                </div>
+<h1>@ViewData["Title"]</h1>
+<a class="mb-5" asp-action="Index">Retour à la liste</a>
+<form asp-controller="Vehicles" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" />
+                <label asp-for="Make"></label>
+                <span asp-validation-for="Make" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-4">
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="RegistrationDate" class="form-control" aria-required="true" placeholder="" type="date"/>
-                    <label asp-for="RegistrationDate"></label>
-                    <span asp-validation-for="RegistrationDate" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Mileage" class="form-control" aria-required="true" placeholder="Kilométrage" />
-                    <label asp-for="Mileage"></label>
-                    <span asp-validation-for="Mileage" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Image" class="form-control" aria-required="true" placeholder="Image" type="file"/>
-                    <label asp-for="Image"></label>
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" />
+                <label asp-for="Model"></label>
+                <span asp-validation-for="Model" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-4">
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="Registration" class="form-control" aria-required="true" placeholder="Immatriculation" />
-                    <label asp-for="Registration"></label>
-                    <span asp-validation-for="Registration" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <input asp-for="VIN" class="form-control" aria-required="true" placeholder="VIN" />
-                    <label asp-for="VIN"></label>
-                    <span asp-validation-for="VIN" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-floating mb-3">
-                    <select class="form-select" asp-items="@ViewBag.SelectList">
-                        <option value="@null">Statut</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Type" class="form-control" aria-required="true" placeholder="Type" />
+                <label asp-for="Type"></label>
+                <span asp-validation-for="Type" class="text-danger"></span>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Créer</button>
+    </div>
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="RegistrationDate" class="form-control" aria-required="true" placeholder="" type="date"/>
+                <label asp-for="RegistrationDate"></label>
+                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+            </div>
         </div>
-    </form>
-</div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Mileage" class="form-control" aria-required="true" placeholder="Kilométrage" />
+                <label asp-for="Mileage"></label>
+                <span asp-validation-for="Mileage" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Image" class="form-control" aria-required="true" placeholder="Image" type="file"/>
+                <label asp-for="Image"></label>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Registration" class="form-control" aria-required="true" placeholder="Immatriculation" />
+                <label asp-for="Registration"></label>
+                <span asp-validation-for="Registration" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <input asp-for="VIN" class="form-control" aria-required="true" placeholder="VIN" />
+                <label asp-for="VIN"></label>
+                <span asp-validation-for="VIN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating mb-3">
+                <select class="form-select" asp-items="@ViewBag.SelectList">
+                    <option value="@null">Statut</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Créer</button>
+    </div>
+</form>
