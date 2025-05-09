@@ -30,7 +30,7 @@ namespace GestionParcAuto.Controllers
 
         public IActionResult Create()
         {
-            CreateStatusSelectList();
+            CreateStatusSelectList(null);
 
             return View();
         }
@@ -71,13 +71,12 @@ namespace GestionParcAuto.Controllers
         {
             if (image != null)
             {
-                string path = Path.GetTempFileName();
-                vehicle.Image = System.IO.File.ReadAllBytes(path);
+                vehicle.Image = ReadFully(image.OpenReadStream());
             }
 
             if (!ModelState.IsValid)
             {
-                CreateStatusSelectList();
+                CreateStatusSelectList(null);
                 return View(vehicle);
             }
 
@@ -92,7 +91,7 @@ namespace GestionParcAuto.Controllers
 
         #region private
 
-        private void CreateStatusSelectList()
+        private void CreateStatusSelectList(char? selected)
         {
             var list = new List<object>()
             {
@@ -112,9 +111,22 @@ namespace GestionParcAuto.Controllers
                     Display = "Réparation"
                 }
             };
-            ViewBag.SelectList = new SelectList(list, "Val", "Display");
+            ViewBag.SelectList = new SelectList(list, "Val", "Display", selected);
         }
+        private static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
 
-        #endregion
+            #endregion
+        }
     }
 }
