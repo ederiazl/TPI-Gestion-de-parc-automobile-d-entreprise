@@ -99,25 +99,31 @@ namespace GestionParcAuto.Controllers
             return RedirectToAction("Index", new Message { Title = "Ajout d'un véhicule", Text = "Le véhicule à été ajouté avec succès." });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Edit(Vehicle vehicle, IFormFile image)
+        public async Task<IActionResult> Edit(Vehicle vehicle, IFormFile? image)
         {
+            Vehicle? dbVehicle = _context.Vehicles.Where(x => x.Id == vehicle.Id).First();
+
+            if (dbVehicle == null)
+                return NotFound();
+
+            _context.Entry(dbVehicle).CurrentValues.SetValues(vehicle);
+
             if (image != null)
-            {
-                vehicle.Image = ReadFully(image.OpenReadStream());
-            }
+                dbVehicle.Image = ReadFully(image.OpenReadStream());
+            else
+                dbVehicle.Image = _context.Entry(dbVehicle).Property(x => x.Image).OriginalValue;
 
             if (!ModelState.IsValid)
             {
                 CreateStatusSelectList(null);
-                return View(vehicle);
+                return View(dbVehicle);
             }
-
-            _context.Vehicles.Update(vehicle);
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", new Message { Title = "Ajout d'un véhicule", Text = "Le véhicule à été ajouté avec succès." });
+            return RedirectToAction("Index", new Message { Title = "Modification d'un véhicule", Text = "Le véhicule à été modifié avec succès." });
         }
 
         #endregion
