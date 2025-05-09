@@ -9,7 +9,6 @@ namespace GestionParcAuto.ViewModels
         public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public bool CheckAdmin { get; set; }
-        public bool CheckEmployee { get; set; }
+        public bool ChangePassword { get; set; }
     }
 }

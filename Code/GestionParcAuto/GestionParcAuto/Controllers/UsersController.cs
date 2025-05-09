@@ -49,9 +49,15 @@ namespace GestionParcAuto.Controllers
 
             if (user == null) 
                 return NotFound();
-            List<string> roles = _userManager.GetRolesAsync(user).Result.ToList();
 
-            EditUserViewModel model = new EditUserViewModel() { Id = user.Id, Email = user.Email, Name = user.Name, Surname = user.Surname, CheckAdmin = roles.Contains("Admin"), CheckEmployee = roles.Contains("Employee") };
+            EditUserViewModel model = new EditUserViewModel() 
+            { 
+                Id = user.Id, 
+                Email = user.Email, 
+                Name = user.Name, 
+                Surname = user.Surname,
+                ChangePassword = user.ChangePassword,
+            };
             return View(model);
         }
 
@@ -66,19 +72,6 @@ namespace GestionParcAuto.Controllers
         #endregion
 
         #region POST
-
-        public async Task<ActionResult> CreateRoles()
-        {
-            await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-
-            await _roleManager.CreateAsync(new IdentityRole { Name = "Employee" });
-
-            return new JsonResult(new
-            {
-                Success = true,
-                Message = "Utilisateur retiré avec succès."
-            });
-        }
 
         public async Task<IActionResult> RemoveUser(string id)
         {
@@ -102,7 +95,14 @@ namespace GestionParcAuto.Controllers
         [HttpPost]
         public IActionResult Create(CreateUserViewModel vm)
         {
-            User user = new User { Name = vm.Name, Surname = vm.Surname, Email = vm.Email, UserName = vm.Email };
+            User user = new User 
+            { 
+                Name = vm.Name, 
+                Surname = vm.Surname, 
+                Email = vm.Email, 
+                UserName = vm.Email,
+                ChangePassword = vm.ChangePassword
+            };
             //CreateUserViewModel user = new();
             if (!ModelState.IsValid)
             {
@@ -115,17 +115,11 @@ namespace GestionParcAuto.Controllers
                 return View(vm);
             }
 
-            //Attributing roles
-            if (vm.CheckAdmin)
-                _userManager.AddToRoleAsync(user, "Admin");
-            if (vm.CheckEmployee)
-                _userManager.AddToRoleAsync(user, "Employee");
-
             return RedirectToAction("Index", new Message { Title = "Création d'un utilisateur", Text = "L'utilisateur à été créée avec succès." });
         }
         
         [HttpPost]
-        public IActionResult Edit(EditUserViewModel vm)
+        public async Task<IActionResult> Edit(EditUserViewModel vm)
         {
             if (!ModelState.IsValid)
             {
@@ -133,20 +127,15 @@ namespace GestionParcAuto.Controllers
             }
 
             User? user = _userManager.FindByIdAsync(vm.Id).Result;
-            List<IdentityRole> roles = _roleManager.Roles.ToList();
 
             if (user == null)
                 return NotFound();
 
-            if (vm.CheckAdmin)
-                _userManager.AddToRoleAsync(user, "Admin");
-            else
-                _userManager.RemoveFromRoleAsync(user, "Admin");
+            user.ChangePassword = vm.ChangePassword;
+            var res = await _userManager.UpdateAsync(user);
 
-            if (vm.CheckEmployee)
-                _userManager.AddToRoleAsync(user, "Employee");
-            else
-                _userManager.RemoveFromRoleAsync(user, "Employee");
+            if (!res.Succeeded)
+                return View(vm);
 
             return RedirectToAction("Index", new Message { Title = "Modification de l'utilisateur", Text = "L'utilisateur à été modifié avec succès." });
         }

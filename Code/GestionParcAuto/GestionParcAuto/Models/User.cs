@@ -14,5 +14,7 @@ namespace GestionParcAuto.Models
         public string Name { get; set; }
         [Display(Name = "Nom")]
         public string Surname { get; set; }
+        [Display(Name = "Forcer la modification du mot de passe")]
+        public bool ChangePassword { get; set; }
     }
 }
