@@ -23,5 +23,7 @@ namespace GestionParcAuto.Models
         public string? VIN { get; set; }
         [Display(Name = "Statut")]
         public char Status { get; set; } = 'N';
+
+        public virtual List<Expertise> Expertises { get; set; }
     }
 }

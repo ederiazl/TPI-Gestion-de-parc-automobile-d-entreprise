@@ -1,0 +1,153 @@
+﻿@model GestionParcAuto.Models.Vehicle
+@{
+    ViewData["Title"] = "Détails véhicule - " + Model.Registration;
+}
+<div>
+    <h1>@ViewData["Title"]</h1>
+    <a class="mb-5" asp-action="Index">Retour à la liste</a>
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid" src="data:image/png;base64,@Convert.ToBase64String(Model.Image ?? new byte[0])" alt="Alternate Text" />
+        </div>
+        <div class="col-8 d-flex align-items-center">
+            <div class="d-block">
+                <div class="mb-3">
+                    <label asp-for="@Model.Make"></label>
+                    <label> : @Model.Make</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Model"></label>
+                    <label> : @Model.Model</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Type"></label>
+                    <label> : @Model.Type</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.RegistrationDate"></label>
+                    <label> : @Model.RegistrationDate?.ToString("dd.MM.yyyy")</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Registration"></label>
+                    <label> : @Model.Registration</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.VIN"></label>
+                    <label> : @Model.VIN</label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Status"></label>
+                    <label> : @Model.Status</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="customTable" id="expertisesTable">
+            </table>
+        </div>
+    </div>
+</div>
+@section Links {
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.css" rel="stylesheet" integrity="sha384-e1+ByJTaytMT6Htvt7psIDKBlPeVIFAsiuLxwwn4Pkdy+IBdg1VxtkwXV00zylkJ" crossorigin="anonymous">
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.js" integrity="sha384-HKgG2rDvMdhDpBvNEKozdvGNQ/JWALSwHW9SP/fdCG0JMLdjYg1cLktf9jf+a5RJ" crossorigin="anonymous"></script>
+
+    <script>
+        var table;
+        $(document).ready(function() {
+            table = $('#expertisesTable').DataTable({
+                rowId: 'id',
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json',
+                },
+                lengthMenu : [10],
+                ajax: {
+                    url: '/Vehicles/GetExpertises',
+                    data: {
+                        id: '@Model.Id',
+                    },
+                    dataSrc:'',
+                    type: 'GET'
+                },
+                columnDefs: [
+                    {
+                        target: 0,
+                        data: "date",
+                        title: "Date"
+                    },
+                    {
+                        target: 1,
+                        data: "status",
+                        render: function (data, type, row, meta) {
+                            if(data)
+                                return "Effectué";
+                            else
+                                return "À venir";
+                        },
+                        title: "Statut"
+                    },
+                    {
+                        target: 2,
+                        data: "user",
+                        title: "Employé"
+                    },
+                    {
+                        target: 3,
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                            return '<a href="/Expertises/Detail/' + data + '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></a>';
+                        }
+                    },
+                    {
+                        target: 4,
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                            return '<a href="/Expertise/Edit/' + data + '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg></a>';
+                        }
+                    },
+                    {
+                        target: 5,
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                            return '<a href="#" class="text-danger" onclick="removeExpertise(\'' + data + '\')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg></a>';
+                        }
+                    }
+                ]
+            });
+        });
+
+
+
+        function removeExpertise(id){
+            Swal.fire({
+                title: "Voulez-vous supprimer l'expertise ?",
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Oui",
+                confirmButtonColor: "#81D5FF"
+            }).then(result =>{
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: '/Expertise/RemoveExpertise',
+                        data: {
+                            id: id,
+                        },
+                        type: "POST",
+                        success: function (data){
+                            table.ajax.reload(null, false);
+                            Swal.fire({
+                                title: data.message,
+                                confirmButtonText: "OK",
+                                confirmButtonColor: "#81D5FF"
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

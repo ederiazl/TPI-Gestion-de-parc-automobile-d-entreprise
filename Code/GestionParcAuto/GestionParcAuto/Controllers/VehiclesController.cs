@@ -51,12 +51,28 @@ namespace GestionParcAuto.Controllers
             return View(vm);
         }
 
+        public IActionResult Detail(int id)
+        {
+            Vehicle? vm = _context.Vehicles.Where(x => x.Id == id).First();
+
+            if (vm == null)
+                return NotFound();
+
+            return View(vm);
+        }
+
         #region Data
 
         public async Task<IActionResult> GetVehicles()
         {
             var vehicles = _context.Vehicles.Select(x => new { x.Id, x.Model, x.Registration, x.Make, x.Type, x.Mileage, x.VIN }).ToList();
             return new JsonResult(vehicles);
+        }
+
+        public async Task<IActionResult> GetExpertises(int id)
+        {
+            var expertises = _context.Vehicles.Where(x => x.Id == id).Include(x => x.Expertises).ThenInclude(x => x.User).SelectMany(x => x.Expertises).Select(x => new { x.Id, x.Date, x.Status, user = x.User.FullName}).ToList();
+            return new JsonResult(expertises);
         }
 
         #endregion
