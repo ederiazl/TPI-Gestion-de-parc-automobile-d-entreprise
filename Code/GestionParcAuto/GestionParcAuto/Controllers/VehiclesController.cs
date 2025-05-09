@@ -139,7 +139,7 @@ namespace GestionParcAuto.Controllers
 
             if (!ModelState.IsValid)
             {
-                CreateStatusSelectList(null);
+                CreateStatusSelectList(dbVehicle.Status);
                 return View(dbVehicle);
             }
 

@@ -24,6 +24,6 @@ namespace GestionParcAuto.Models
         [Display(Name = "Statut")]
         public char Status { get; set; } = 'N';
 
-        public virtual List<Expertise> Expertises { get; set; }
+        public virtual ICollection<Expertise> Expertises { get; set; } = new List<Expertise>();
     }
 }
