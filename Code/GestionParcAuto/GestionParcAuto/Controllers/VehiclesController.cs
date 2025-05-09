@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using GestionParcAuto.Classes;
 using GestionParcAuto.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionParcAuto.Controllers
 {
@@ -28,6 +30,7 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             CreateStatusSelectList(null);
@@ -35,6 +38,7 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Vehicle? vm = _context.Vehicles.Where(x => x.Id == id).First();
@@ -59,6 +63,7 @@ namespace GestionParcAuto.Controllers
 
         #region POST
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> RemoveVehicle(int id)
         {
@@ -78,6 +83,7 @@ namespace GestionParcAuto.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Vehicle vehicle, IFormFile image)
         {
