@@ -5,11 +5,15 @@ using GestionParcAuto.Models;
 
 namespace TestASP.Controllers
 {
+    /// <summary>
+    /// Controller of the roles
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+
         public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
@@ -17,11 +21,21 @@ namespace TestASP.Controllers
         }
 
         #region Page
+
+        /// <summary>
+        /// Page index
+        /// </summary>
+        /// <returns>Index view</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Page users
+        /// </summary>
+        /// <param name="id">Role id</param>
+        /// <returns>View users</returns>
         public async Task<IActionResult> Users(string id)
         {
             IdentityRole? role = await _roleManager.FindByIdAsync(id);
@@ -32,6 +46,11 @@ namespace TestASP.Controllers
                 return NotFound();
         }
 
+        /// <summary>
+        /// Page add users
+        /// </summary>
+        /// <param name="id">Role Id</param>
+        /// <returns>Add users view</returns>
         public async Task<IActionResult> AddUsers(string id)
         {
             IdentityRole? role = await _roleManager.FindByIdAsync(id);
@@ -45,6 +64,13 @@ namespace TestASP.Controllers
 
         #region Post
 
+        /// <summary>
+        /// Remove user action
+        /// </summary>
+        /// <param name="roleId">Role Id</param>
+        /// <param name="userId">User Id</param>
+        /// <returns>Result with message</returns>
+        /// <exception cref="Exception">Unable to find user or role</exception>
         [HttpPost]
         public async Task<IActionResult> RemoveUser(string roleId, string userId)
         {
@@ -74,6 +100,13 @@ namespace TestASP.Controllers
             }
         }
 
+        /// <summary>
+        /// Add user action
+        /// </summary>
+        /// <param name="roleId">Role Id</param>
+        /// <param name="userId">User id</param>
+        /// <returns>Result with message</returns>
+        /// <exception cref="Exception">Unable to find role or user</exception>
         [HttpPost]
         public async Task<IActionResult> AddUser(string roleId, string userId)
         {
@@ -105,12 +138,22 @@ namespace TestASP.Controllers
         #endregion
 
         #region Data
+        /// <summary>
+        /// Get Role action
+        /// </summary>
+        /// <returns>Result with list of roles</returns>
         [HttpGet]
         public IActionResult GetRoles()
         {
             return new JsonResult(_roleManager.Roles.ToList());
         }
 
+        /// <summary>
+        /// Get users action
+        /// </summary>
+        /// <param name="id">Role id</param>
+        /// <returns>Result with user in role</returns>
+        /// <exception cref="Exception">Invalid role id</exception>
         [HttpGet]
         public async Task<IActionResult> GetUsers(string id)
         {
@@ -126,6 +169,12 @@ namespace TestASP.Controllers
             }
         }
 
+        /// <summary>
+        /// Get users to add action
+        /// </summary>
+        /// <param name="id">role id</param>
+        /// <returns>Result with users that can be added to role</returns>
+        /// <exception cref="Exception">Invalid role id</exception>
         [HttpGet]
         public async Task<IActionResult> GetUsersToAdd(string id)
         {

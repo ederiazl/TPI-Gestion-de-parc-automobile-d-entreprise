@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestionParcAuto.Controllers
 {
+    /// <summary>
+    /// Controller of the vehicles
+    /// </summary>
     [Authorize]
     public class VehiclesController : Controller
     {
@@ -19,7 +22,11 @@ namespace GestionParcAuto.Controllers
             _context = context;
         }
 
-
+        /// <summary>
+        /// Page index
+        /// </summary>
+        /// <param name="message">Message to show at page start</param>
+        /// <returns>Index view</returns>
         public IActionResult Index(Message message)
         {
             if (message.Text != null)
@@ -30,6 +37,10 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Page create
+        /// </summary>
+        /// <returns>Create view</returns>
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -38,6 +49,11 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Page edit
+        /// </summary>
+        /// <param name="id">Vehicle id</param>
+        /// <returns>Edit view</returns>
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
@@ -51,6 +67,11 @@ namespace GestionParcAuto.Controllers
             return View(vm);
         }
 
+        /// <summary>
+        /// Page detail
+        /// </summary>
+        /// <param name="id">Vehicle id</param>
+        /// <returns>Detail view</returns>
         public IActionResult Detail(int id)
         {
             Vehicle? vm = _context.Vehicles.Where(x => x.Id == id).First();
@@ -63,12 +84,21 @@ namespace GestionParcAuto.Controllers
 
         #region Data
 
+        /// <summary>
+        /// Get vehicle action
+        /// </summary>
+        /// <returns>Result with list of vehicles</returns>
         public async Task<IActionResult> GetVehicles()
         {
             var vehicles = _context.Vehicles.Select(x => new { x.Id, x.Model, x.Registration, x.Make, x.Type, x.Mileage, x.VIN }).ToList();
             return new JsonResult(vehicles);
         }
 
+        /// <summary>
+        /// Get expertise action
+        /// </summary>
+        /// <param name="id">Vehicle id</param>
+        /// <returns>Result with list of expertises</returns>
         public async Task<IActionResult> GetExpertises(int id)
         {
             var expertises = _context.Vehicles.Where(x => x.Id == id).Include(x => x.Expertises).ThenInclude(x => x.User).SelectMany(x => x.Expertises).Select(x => new { x.Id, x.Date, x.Status, user = x.User.FullName}).ToList();
@@ -79,6 +109,12 @@ namespace GestionParcAuto.Controllers
 
         #region POST
 
+        /// <summary>
+        /// Remove vehicle action
+        /// </summary>
+        /// <param name="id">Vehicle id</param>
+        /// <returns>Result with message to display</returns>
+        /// <exception cref="Exception">Unable to find vehicle</exception>
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> RemoveVehicle(int id)
@@ -99,6 +135,12 @@ namespace GestionParcAuto.Controllers
             });
         }
 
+        /// <summary>
+        /// Create vehicle action
+        /// </summary>
+        /// <param name="vehicle">Vehicle</param>
+        /// <param name="image">Image file</param>
+        /// <returns>Redirect to index with message</returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Vehicle vehicle, IFormFile image)
@@ -121,6 +163,12 @@ namespace GestionParcAuto.Controllers
             return RedirectToAction("Index", new Message { Title = "Ajout d'un véhicule", Text = "Le véhicule à été ajouté avec succès." });
         }
 
+        /// <summary>
+        /// Edit vehicle action
+        /// </summary>
+        /// <param name="vehicle">vehicle</param>
+        /// <param name="image">Image file</param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Vehicle vehicle, IFormFile? image)
@@ -152,6 +200,10 @@ namespace GestionParcAuto.Controllers
 
         #region private
 
+        /// <summary>
+        /// Generates status select list
+        /// </summary>
+        /// <param name="selected">Status selected</param>
         private void CreateStatusSelectList(char? selected)
         {
             var list = new List<object>()
@@ -174,6 +226,12 @@ namespace GestionParcAuto.Controllers
             };
             ViewBag.SelectList = new SelectList(list, "Val", "Display", selected);
         }
+
+        /// <summary>
+        /// Read stream
+        /// </summary>
+        /// <param name="input">Stream</param>
+        /// <returns>Byte array</returns>
         private static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];

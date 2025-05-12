@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GestionParcAuto.Controllers
 {
+    /// <summary>
+    /// Controller of the users
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
@@ -26,6 +29,11 @@ namespace GestionParcAuto.Controllers
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// Page index
+        /// </summary>
+        /// <param name="message">message to show at page start</param>
+        /// <returns>Index view</returns>
         public IActionResult Index(Message message)
         {
             if(message.Text != null)
@@ -36,12 +44,21 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Page create
+        /// </summary>
+        /// <returns>Create view</returns>
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Page Edit
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>User view</returns>
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -63,6 +80,10 @@ namespace GestionParcAuto.Controllers
 
         #region Data
 
+        /// <summary>
+        /// Get user action
+        /// </summary>
+        /// <returns>Result with list of users</returns>
         public async Task<IActionResult> GetUsers()
         {
             List<User> Users = _userManager.Users.ToList();
@@ -73,6 +94,12 @@ namespace GestionParcAuto.Controllers
 
         #region POST
 
+        /// <summary>
+        /// Remove user action
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>Result with message to show</returns>
+        /// <exception cref="Exception">Impossible to remove user</exception>
         public async Task<IActionResult> RemoveUser(string id)
         {
             if (id == _userManager.GetUserId(this.User))
@@ -92,6 +119,11 @@ namespace GestionParcAuto.Controllers
             });
         }
 
+        /// <summary>
+        /// Create action
+        /// </summary>
+        /// <param name="vm">view model</param>
+        /// <returns>Index action with message</returns>
         [HttpPost]
         public IActionResult Create(CreateUserViewModel vm)
         {
@@ -118,6 +150,11 @@ namespace GestionParcAuto.Controllers
             return RedirectToAction("Index", new Message { Title = "Création d'un utilisateur", Text = "L'utilisateur à été créée avec succès." });
         }
         
+        /// <summary>
+        /// Edit action
+        /// </summary>
+        /// <param name="vm">View model</param>
+        /// <returns>Index action with message</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel vm)
         {
