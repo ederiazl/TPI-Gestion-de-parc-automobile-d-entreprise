@@ -18,12 +18,18 @@ namespace GestionParcAuto.Controllers
     {
 
         ApplicationDbContext _context;
+        UserManager<User> _userManager;
 
-        public ExpertisesController(ApplicationDbContext context)
+        public ExpertisesController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
+        /// <summary>
+        /// Page index
+        /// </summary>
+        /// <returns>Index view</returns>
         public IActionResult Index()
         {
             return View();
@@ -46,7 +52,7 @@ namespace GestionParcAuto.Controllers
 
         public async Task<IActionResult> GetExpertises()
         {
-            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, x.Date, User = x.User.FullName ?? "", Registration = x.Vehicle.Registration }).ToList());
+            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make }).ToList());
         }
 
         #endregion
