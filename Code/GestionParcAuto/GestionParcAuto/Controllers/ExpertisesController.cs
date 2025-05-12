@@ -41,9 +41,8 @@ namespace GestionParcAuto.Controllers
         /// <returns></returns>
         public IActionResult Create()
         {
-            ViewBag.VehicleSelect = new SelectList(_context.Vehicles, "Id", "Registration");
-            ViewBag.UserSelect = new SelectList(_context.Users, "Id", "Fullname");
-
+            CreateVehicleSelectList(null);
+            CreateEmployeeSelectList(null);
 
             return View();
         }
@@ -108,6 +107,20 @@ namespace GestionParcAuto.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", new Message() { Title = "Ajout d'une expertise", Text = "Expertise ajoutée avec succès." });
+        }
+
+        #endregion
+
+        #region private
+
+        private void CreateVehicleSelectList(int? selectedId)
+        {
+            ViewBag.VehicleSelectList = new SelectList(_context.Vehicles, "Id", "Registration", selectedId);
+        }
+
+        private void CreateEmployeeSelectList(string? selectedId)
+        {
+            ViewBag.UserSelectList = new SelectList(_userManager.GetUsersInRoleAsync("Employee").Result, "Id", "UserName", selectedId);
         }
 
         #endregion

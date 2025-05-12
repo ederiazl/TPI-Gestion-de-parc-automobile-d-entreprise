@@ -114,12 +114,31 @@ table {
     border-radius: 0;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus, .form-select:focus, .btn-light:focus {
     box-shadow: none;
 }
 
 .form-select{
     
+    border: none;
+    border-bottom: 2px solid;
+    border-color: var(--app-color);
+    border-radius: 0;
+}
+
+.bootstrap-select{
+    width: 100% !important;
+    height: 100% !important;
+    align-content: end;
+    padding-bottom: 1rem !important;
+}
+
+.btn.show {
+    background-color: #FFF;
+}
+
+.btn-light {
+    width: 100%;
     border: none;
     border-bottom: 2px solid;
     border-color: var(--app-color);
