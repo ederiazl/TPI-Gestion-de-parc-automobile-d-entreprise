@@ -30,15 +30,20 @@ namespace GestionParcAuto.Controllers
         /// Page index
         /// </summary>
         /// <returns>Index view</returns>
-        public IActionResult Index()
+        public IActionResult Index(Message message)
         {
+            if (message.Text != null)
+            {
+                ViewBag.Message = Json(message);
+            }
+
             return View();
         }
 
         /// <summary>
         /// Page create
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Create view</returns>
         public IActionResult Create()
         {
             CreateVehicleSelectList(null);
@@ -47,11 +52,35 @@ namespace GestionParcAuto.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Page edit
+        /// </summary>
+        /// <returns>Edit view</returns>
+        public IActionResult Edit(int id)
+        {
+            Expertise expertise = _context.Expertises.Where(x => x.Id == id).Include(x => x.Vehicle).Include(x => x.User).First();
+
+            CreateVehicleSelectList(expertise.Vehicle.Id);
+            CreateEmployeeSelectList(expertise.User?.Id);
+
+            EditExpertiseViewModel vm = new EditExpertiseViewModel()
+            {
+                Id = id,
+                Date = expertise.Date,
+                VehicleId = expertise.Vehicle.Id,
+                UserId = expertise.User?.Id,
+                Note = expertise.Note,
+                Status = expertise.Status,
+            };
+
+            return View(vm);
+        }
+
         #region GET
 
         public async Task<IActionResult> GetExpertises()
         {
-            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make }).ToList());
+            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make, x.Status }).ToList());
         }
 
         #endregion
@@ -107,6 +136,32 @@ namespace GestionParcAuto.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", new Message() { Title = "Ajout d'une expertise", Text = "Expertise ajoutée avec succès." });
+        }
+
+        /// <summary>
+        /// Action edit expertise
+        /// </summary>
+        /// <param name="expertise">View model</param>
+        /// <returns>Redirect to Index with message</returns>
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditExpertiseViewModel model)
+        {
+            Vehicle vehicle = _context.Vehicles.Where(x => x.Id == model.VehicleId).First();
+            User? user = await _userManager.FindByIdAsync(model.UserId ?? "");
+
+            Expertise expertise = _context.Expertises.Where(x => x.Id == model.Id).First();
+
+            expertise.Date = model.Date;
+            expertise.Status = model.Status;
+            expertise.Vehicle = vehicle;
+            expertise.User = user;
+            expertise.Note = model.Note;
+
+            _context.Update(expertise);
+
+            int modifications = _context.SaveChanges();
+
+            return RedirectToAction("Index", new Message() { Title = "Modification de l'expertise", Text = "Expertise modifiée avec succès." });
         }
 
         #endregion

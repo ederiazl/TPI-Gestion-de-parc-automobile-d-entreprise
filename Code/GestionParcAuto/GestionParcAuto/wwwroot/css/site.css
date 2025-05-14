@@ -144,3 +144,9 @@ table {
     border-color: var(--app-color);
     border-radius: 0;
 }
+
+textarea.form-control {
+    border-left: #E0E0E0 solid 1px !important;
+    border-top: #E0E0E0 solid 1px !important;
+    border-right: #E0E0E0 solid 1px !important;
+}
