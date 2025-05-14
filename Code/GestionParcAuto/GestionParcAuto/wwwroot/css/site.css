@@ -150,3 +150,10 @@ textarea.form-control {
     border-top: #E0E0E0 solid 1px !important;
     border-right: #E0E0E0 solid 1px !important;
 }
+
+p{
+    border: 3px var(--app-color) solid;
+    border-radius: 26px;
+    padding: 3px;
+    min-height: 100px;
+}

@@ -1,0 +1,35 @@
+﻿@model GestionParcAuto.Models.Expertise
+@{
+    ViewData["Title"] = "Détail de l'expertise du véhicule - " + Model.Vehicle.Registration;
+}
+
+<h1>@ViewData["Title"]</h1>
+<a class="mb-5" asp-action="Index">Retour à la liste</a>
+<div class="row">
+    <div class="col-12 d-flex align-items-center">
+        <div class="w-100 d-block">
+            <div class="mb-3">
+                <label asp-for="Date"></label>
+                <label> : @Model.Date.ToString("dd.MM.yyyy HH:mm")</label>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Status"></label>
+                <label> : @(Model.Status ? "Effectué" : "À faire")</label>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Vehicle"></label>
+                <label> : <a herf="/Vehicles/Detail/@Model.Vehicle.Id">@Model.Vehicle.Model - @Model.Vehicle.Registration</a></label>
+            </div>
+            @if(User.IsInRole("Admin")){
+                <div class="mb-3">
+                    <label asp-for="@Model.User"></label>
+                    <label> : @Model.User?.FullName</label>
+                </div>
+            }
+            <div class="w-100 mb-3">
+                <label class="mb-1" asp-for="@Model.Note"></label>
+                <p class="w-100">@Model.Note</p>
+            </div>
+        </div>
+    </div>
+</div>

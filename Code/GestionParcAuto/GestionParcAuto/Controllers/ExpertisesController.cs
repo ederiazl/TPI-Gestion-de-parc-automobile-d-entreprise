@@ -76,11 +76,22 @@ namespace GestionParcAuto.Controllers
             return View(vm);
         }
 
+        /// <summary>
+        /// Page detail
+        /// </summary>
+        /// <returns>Detail view</returns>
+        public IActionResult Detail(int id)
+        {
+            Expertise expertise = _context.Expertises.Where(x => x.Id == id).Include(x => x.Vehicle).Include(x => x.User).First();
+
+            return View(expertise);
+        }
+
         #region GET
 
         public async Task<IActionResult> GetExpertises()
         {
-            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make, x.Status }).ToList());
+            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy HH:mm"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make, x.Status }).ToList());
         }
 
         #endregion
