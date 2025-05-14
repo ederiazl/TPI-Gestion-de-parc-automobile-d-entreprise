@@ -119,7 +119,63 @@ namespace GestionParcAuto.Controllers
             return new JsonResult(new
             {
                 Success = true,
-                Message = "Expertise supprimé avec succès."
+                Message = "Expertise supprimée avec succès."
+            });
+        }
+
+        /// <summary>
+        /// Post action for approving an expertise
+        /// </summary>
+        /// <param name="id">expertise id</param>
+        /// <returns>result with alert message</returns>
+        /// <exception cref="Exception">Expertise was not found</exception>
+        [HttpPost]
+        public async Task<IActionResult> ValidateExpertise(int id, string note)
+        {
+            Expertise? expertise = _context.Expertises.Where(x => x.Id == id).First();
+
+            if (expertise == null)
+                throw new Exception($"Unable to find expertise with id:{id}");
+
+            expertise.Status = true;
+            expertise.Note = note;
+
+            _context.Expertises.Update(expertise);
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new
+            {
+                Success = true,
+                Message = "Expertise a été validée avec succès."
+            });
+        }
+
+        /// <summary>
+        /// Post action for unvalidate an expertise
+        /// </summary>
+        /// <param name="id">expertise id</param>
+        /// <returns>result with alert message</returns>
+        /// <exception cref="Exception">Expertise was not found</exception>
+        [HttpPost]
+        public async Task<IActionResult> UnValidateExpertise(int id)
+        {
+            Expertise? expertise = _context.Expertises.Where(x => x.Id == id).First();
+
+            if (expertise == null)
+                throw new Exception($"Unable to find expertise with id:{id}");
+
+            expertise.Status = false;
+            expertise.Note = "";
+
+            _context.Expertises.Update(expertise);
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new
+            {
+                Success = true,
+                Message = "Expertise a été dévalidée avec succès."
             });
         }
 
