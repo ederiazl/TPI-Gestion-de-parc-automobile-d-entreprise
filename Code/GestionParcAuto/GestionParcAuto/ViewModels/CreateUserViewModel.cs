@@ -6,10 +6,13 @@ namespace GestionParcAuto.ViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
         [Required]
+        [Display(Name = "Prénom")]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "Nom")]
         public string Surname { get; set; }
         [Required]
         [Display(Name = "Mot de passe temporaire")]

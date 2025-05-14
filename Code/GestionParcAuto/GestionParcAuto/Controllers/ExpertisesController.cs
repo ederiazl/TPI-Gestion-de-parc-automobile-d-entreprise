@@ -44,6 +44,7 @@ namespace GestionParcAuto.Controllers
         /// Page create
         /// </summary>
         /// <returns>Create view</returns>
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             CreateVehicleSelectList(null);
@@ -56,6 +57,7 @@ namespace GestionParcAuto.Controllers
         /// Page edit
         /// </summary>
         /// <returns>Edit view</returns>
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Expertise expertise = _context.Expertises.Where(x => x.Id == id).Include(x => x.Vehicle).Include(x => x.User).First();
@@ -91,7 +93,8 @@ namespace GestionParcAuto.Controllers
 
         public async Task<IActionResult> GetExpertises()
         {
-            return new JsonResult(_context.Expertises.Include(x => x.User).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy HH:mm"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make, x.Status }).ToList());
+            var x = _context.Expertises.Include(x => x.User).Where(x => x.User.Id == _userManager.GetUserId(User) || User.IsInRole("Admin")).Include(x => x.Vehicle).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy HH:mm"), User = x.User.FullName ?? "", Registration = x.Vehicle.Registration, Make = x.Vehicle.Make, x.Status }).ToList();
+            return new JsonResult(x);
         }
 
         #endregion
@@ -105,6 +108,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>result with alert message</returns>
         /// <exception cref="Exception">Expertise was not found</exception>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveExpertise(int id)
         {
             Expertise? expertise = _context.Expertises.Where(x => x.Id == id).First();
@@ -130,6 +134,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>result with alert message</returns>
         /// <exception cref="Exception">Expertise was not found</exception>
         [HttpPost]
+        [Authorize(Roles = "Employee,Admin")]
         public async Task<IActionResult> ValidateExpertise(int id, string note)
         {
             Expertise? expertise = _context.Expertises.Where(x => x.Id == id).First();
@@ -158,6 +163,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>result with alert message</returns>
         /// <exception cref="Exception">Expertise was not found</exception>
         [HttpPost]
+        [Authorize(Roles = "Employee,Admin")]
         public async Task<IActionResult> UnValidateExpertise(int id)
         {
             Expertise? expertise = _context.Expertises.Where(x => x.Id == id).First();
@@ -185,6 +191,7 @@ namespace GestionParcAuto.Controllers
         /// <param name="expertise">View model</param>
         /// <returns>Redirect to Index with message</returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateExpertiseViewModel model)
         {
             Vehicle vehicle = _context.Vehicles.Where(x => x.Id == model.VehicleId).First();
@@ -211,6 +218,7 @@ namespace GestionParcAuto.Controllers
         /// <param name="expertise">View model</param>
         /// <returns>Redirect to Index with message</returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditExpertiseViewModel model)
         {
             Vehicle vehicle = _context.Vehicles.Where(x => x.Id == model.VehicleId).First();
@@ -224,7 +232,7 @@ namespace GestionParcAuto.Controllers
             expertise.User = user;
             expertise.Note = model.Note;
 
-            _context.Update(expertise);
+            _context.Expertises.Update(expertise);
 
             int modifications = _context.SaveChanges();
 

@@ -154,6 +154,6 @@ textarea.form-control {
 p{
     border: 3px var(--app-color) solid;
     border-radius: 26px;
-    padding: 3px;
+    padding: 10px 15px 10px 15px;
     min-height: 100px;
 }
