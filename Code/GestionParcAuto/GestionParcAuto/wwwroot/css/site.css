@@ -103,8 +103,11 @@ table {
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--app-color-variant);
     --bs-btn-disabled-border-color: var(--app-color-variant);
+    border-radius: 26px;   
+}
+
+.btn-secondary {
     border-radius: 26px;
-    
 }
 
 .form-control{

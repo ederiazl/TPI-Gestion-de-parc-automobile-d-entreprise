@@ -6,6 +6,7 @@ using GestionParcAuto.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestionParcAuto.Controllers
 {
@@ -16,10 +17,12 @@ namespace GestionParcAuto.Controllers
     public class VehiclesController : Controller
     {
         ApplicationDbContext _context;
+        UserManager<User> _userManager;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -33,6 +36,8 @@ namespace GestionParcAuto.Controllers
             {
                 ViewBag.Message = Json(message);
             }
+
+            CreateEmployeeSelectList();
 
             return View();
         }
@@ -132,6 +137,36 @@ namespace GestionParcAuto.Controllers
             {
                 Success = true,
                 Message = "Véhicule supprimé avec succès."
+            });
+        }
+
+        /// <summary>
+        /// Add expertise to vehicle action
+        /// </summary>
+        /// <param name="id">Vehicle id</param>
+        /// <param name="dateTime">Expertise date</param>
+        /// <param name="userId">User id</param>
+        /// <returns>Result with message to display</returns>é
+        /// <exception cref="Exception">Unable to find vehicle</exception>
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> AddExpertise(int id, DateTime dateTime, string? userId)
+        {
+            Vehicle? vehicle = _context.Vehicles.Where(x => x.Id == id).First();
+
+            if (vehicle == null)
+                throw new Exception($"Unable to find vehicle with id:{id}");
+
+            User? user = await _userManager.FindByIdAsync(userId ?? "");
+
+            vehicle.Expertises.Add(new Expertise { Date = dateTime, User = user });
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new
+            {
+                Success = true,
+                Message = "Expertise ajoutée avec succès."
             });
         }
 
@@ -245,7 +280,13 @@ namespace GestionParcAuto.Controllers
                 return ms.ToArray();
             }
 
-            #endregion
         }
+        
+
+        private void CreateEmployeeSelectList()
+        {
+            ViewBag.UserSelectList = new SelectList(_userManager.GetUsersInRoleAsync("Employee").Result, "Id", "UserName");
+        }
+        #endregion
     }
 }
