@@ -9,6 +9,7 @@ namespace GestionParcAuto.Models
         public DateTime Date { get; set; }
         [Display(Name = "Statut")]
         public bool Status { get; set; }
+        [Display(Name = "Remarques")]
         public string? Note { get; set; }
         [Display(Name = "Véhicule")]
         public Vehicle Vehicle { get; set; }

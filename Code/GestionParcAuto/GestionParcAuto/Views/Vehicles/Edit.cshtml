@@ -4,7 +4,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 <a class="mb-5" asp-action="Index">Retour à la liste</a>
-<form asp-controller="Vehicles" asp-action="Edit" method="post" enctype="multipart/form-data">
+<form class="d-flex flex-grow-1 flex-column justify-content-around" asp-controller="Vehicles" asp-action="Edit" method="post" enctype="multipart/form-data">
     <input asp-for="Id" hidden/>
     <div class="row mb-4">
         <div class="col-4">

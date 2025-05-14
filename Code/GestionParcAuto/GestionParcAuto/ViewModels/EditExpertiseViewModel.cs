@@ -14,7 +14,7 @@ namespace GestionParcAuto.ViewModels
         public string? UserId { get; set; }
         [Display(Name = "Statut")]
         public bool Status { get; set; }
-        [Display(Name = "Note")]
+        [Display(Name = "Remarques")]
         public string? Note { get; set; }
     }
 }

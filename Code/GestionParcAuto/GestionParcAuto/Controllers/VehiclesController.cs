@@ -95,7 +95,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>Result with list of vehicles</returns>
         public async Task<IActionResult> GetVehicles()
         {
-            var vehicles = _context.Vehicles.Select(x => new { x.Id, x.Model, x.Registration, x.Make, x.Type, x.Mileage, x.VIN }).ToList();
+            var vehicles = _context.Vehicles.Include(x => x.Expertises).Select(x => new { x.Id, x.Model, x.Registration, x.Make, x.Type, x.Mileage, x.VIN, NextExpertise = x.Expertises.Select(x => x.Date).Max().ToString("dd.MM.yyyy HH:mm") }).ToList();
             return new JsonResult(vehicles);
         }
 

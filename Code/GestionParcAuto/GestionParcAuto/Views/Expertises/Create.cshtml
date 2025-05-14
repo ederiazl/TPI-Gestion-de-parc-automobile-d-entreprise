@@ -4,7 +4,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 <a class="mb-5" asp-action="Index">Retour à la liste</a>
-<form asp-action="Create" method="post">
+<form class="d-flex flex-grow-1 flex-column justify-content-around" asp-action="Create" method="post">
     <div class="row mb-4">
         <div class="col-4">
             <div class="form-floating mb-3">
@@ -26,7 +26,7 @@
             <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
         <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Créer</button>
     </div>
 </form>

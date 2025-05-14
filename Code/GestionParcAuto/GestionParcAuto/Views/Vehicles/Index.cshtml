@@ -2,7 +2,11 @@
     ViewData["Title"] = "Liste des Véhicules";
 }
 <h1>@ViewData["Title"]</h1>
-<a class="btn btn-primary" asp-action="Create">Ajouter un véhicule</a>
+@if(User.IsInRole("Admin")){
+    <div class="col-1">
+        <a class="btn btn-primary" asp-action="Create">Ajouter un véhicule</a>
+    </div>
+}
 <table class="customTable" id="vehiclesTable">
 </table>
 @section Links {
@@ -93,6 +97,11 @@
                 },
                 {
                     target: 6,
+                    data: "nextExpertise",
+                    title: "Prochaine expertise"
+                },
+                {
+                    target: 7,
                     data: "id",
                     width: '5%',
                     visible: @User.IsInRole("Admin").ToString().ToLower(),
@@ -102,7 +111,7 @@
                     }
                 },
                 {
-                    target: 7,
+                    target: 8,
                     data: "id",
                     width: '5%',
                     render: function (data, type, row, meta) {
@@ -110,7 +119,7 @@
                     }
                 },
                 {
-                    target: 8,
+                    target: 9,
                     data: "id",
                     width: '5%',
                     visible: @User.IsInRole("Admin").ToString().ToLower(),
@@ -119,7 +128,7 @@
                     }
                 },
                 {
-                    target: 9,
+                    target: 10,
                     data: "id",
                     width: '5%',
                     visible: @User.IsInRole("Admin").ToString().ToLower(),
