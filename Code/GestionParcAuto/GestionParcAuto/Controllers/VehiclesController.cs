@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using GestionParcAuto.Classes.CarData;
 
 namespace GestionParcAuto.Controllers
 {
@@ -50,6 +51,7 @@ namespace GestionParcAuto.Controllers
         public IActionResult Create()
         {
             CreateStatusSelectList(null);
+            CreateMakesList();
 
             return View();
         }
@@ -109,6 +111,14 @@ namespace GestionParcAuto.Controllers
             var expertises = _context.Vehicles.Where(x => x.Id == id).Include(x => x.Expertises).ThenInclude(x => x.User).SelectMany(x => x.Expertises).Select(x => new { x.Id, x.Date, x.Status, user = x.User.FullName}).ToList();
             return new JsonResult(expertises);
         }
+
+        /// <summary>
+        /// Get list of model
+        /// </summary>
+        /// <param name="make">car make</param>
+        /// <param name="model">car model</param>
+        /// <returns>Result with list of car models</returns>
+        public async Task<IActionResult> GetModelList(string make, string model) => new JsonResult(CarDataAPI.GetModels(make, model).Result.DistinctBy(x => x.Model).ToList());
 
         #endregion
 
@@ -188,6 +198,7 @@ namespace GestionParcAuto.Controllers
             if (!ModelState.IsValid)
             {
                 CreateStatusSelectList(null);
+                CreateMakesList();
                 return View(vehicle);
             }
 
@@ -282,10 +293,20 @@ namespace GestionParcAuto.Controllers
 
         }
         
-
+        /// <summary>
+        /// Creates select list for employee named UserSelectList in ViewBag
+        /// </summary>
         private void CreateEmployeeSelectList()
         {
             ViewBag.UserSelectList = new SelectList(_userManager.GetUsersInRoleAsync("Employee").Result, "Id", "UserName");
+        }
+
+        /// <summary>
+        /// Creates select list for car makes named UserSelectList in ViewBag
+        /// </summary>
+        private void CreateMakesList()
+        {
+            ViewBag.MakeSelectList = CarDataAPI.GetCarMakes().Result;
         }
         #endregion
     }
