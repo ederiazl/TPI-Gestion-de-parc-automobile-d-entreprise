@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewData["Title"] = "Tableau de bord";
+}
+<div class="row mb-5">
+    <div class="col">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="dashboardItem mb-3 p-2">
+            <a asp-action="Create" asp-controller="Expertises" class="btn btn-primary me-1">Ajouter une expertise</a>
+            <a asp-action="Create" asp-controller="Vehicles" class="btn btn-primary">Ajouter un véhicule</a>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="dashboardItem">
+            <h3>Prochaines expertises</h3>
+            <table id="nextExpertisesTable" class="mb-2"></table>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="dashboardItem">
+            <h3>Derniers véhicules</h3>
+            <table id="lastVehiclesTable" class="mb-2"></table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/cr-2.0.4/sp-2.3.3/datatables.min.js" integrity="sha384-HKgG2rDvMdhDpBvNEKozdvGNQ/JWALSwHW9SP/fdCG0JMLdjYg1cLktf9jf+a5RJ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-*.min.js"></script>
+
+<script>
+    var expTable;
+    var vehTable;
+    $(document).ready(function() {
+        expTable = $('#nextExpertisesTable').DataTable({
+            rowId: 'id',
+            dom: 't',
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json',
+            },
+            ajax: {
+                url: '/Home/GetNextExpertises',
+                dataSrc:'',
+                type: 'GET'
+            },
+            columnDefs: [
+                {
+                    target: 0,
+                    data: "date",
+                    title: "Date",
+                    type: "date",
+                },
+                {
+                    target: 1,
+                    data: "make",
+                    title: "Marque"
+                },
+                {
+                    target: 2,
+                    data: "model",
+                    title: "Modèle"
+                },
+                {
+                    target: 3,
+                    data: "registration",
+                    title: "Immatriculation"
+                },
+                {
+                    target: 4,
+                    data: "user",
+                    title: "Employé"
+                }
+            ]
+        });
+        
+            vehTable = $('#lastVehiclesTable').DataTable({
+            rowId: 'id',
+            dom: 't',
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json',
+            },
+            ajax: {
+                url: '/Home/GetLastVehicles',
+                dataSrc:'',
+                type: 'GET'
+            },
+            columnDefs: [
+                {
+                    target: 0,
+                    data: "make",
+                    title: "Marque",
+                },
+                {
+                    target: 1,
+                    data: "model",
+                    title: "Modèle"
+                },
+                {
+                    target: 2,
+                    data: "registration",
+                    title: "Immatriculation"
+                },
+                {
+                    target: 3,
+                    data: "mileage",
+                    title: "Kilométrage"
+                },
+                {
+                    target: 4,
+                    data: "nextExpertise",
+                    title: "Prochaine expertise",
+                    type: 'date'
+                }
+            ]
+        });
+    });
+</script>
+}

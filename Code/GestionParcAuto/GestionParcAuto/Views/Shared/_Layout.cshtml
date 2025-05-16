@@ -17,15 +17,22 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-auto px-sm-2 px-0 bg-dark">
+            <div class="col px-sm-2 px-0 bg-dark" style="max-width:250px;">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a asp-controller="Vehicles" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <img src="~/icon.svg" alt="icon" height="30" class="me-1"/>
                         <span class="fs-4">Gestion de parc</span>
                     </a>
                     <hr>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <ul class="nav nav-pills flex-column mb-auto">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a asp-controller="Home" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Tableau de bord</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a asp-controller="Vehicles" asp-action="Index" class="nav-link text-white">
                                     Véhicules

@@ -41,34 +41,34 @@ body {
 }
 
 table tr:first-child th:first-child {
-    border-top-left-radius: 16px;
+    border-top-left-radius: 26px;
 }
 
 table tr:first-child th:last-child {
-    border-top-right-radius: 16px;
+    border-top-right-radius: 26px;
 }
 
 table tr:last-child td:first-child {
-    border-bottom-left-radius: 16px;
+    border-bottom-left-radius: 26px;
 }
 
 table tr:last-child td:last-child {
-    border-bottom-right-radius: 16px;
+    border-bottom-right-radius: 26px;
 }
 
 table td, table th {
     padding: 8px;
 }
 
-table {
+.customTable {
     box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
     -webkit-box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
     -moz-box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.29);
 }
 
-.selectTable, .customTable {
+table {
     border-collapse: collapse;
-    border-radius: 15px;
+    border-radius: 26px;
 }
 
 .selectTable tbody tr:hover {
@@ -160,4 +160,16 @@ p{
     border-radius: 26px;
     padding: 10px 15px 10px 15px;
     min-height: 100px;
+}
+
+.dashboardItem {
+    border: 3px solid var(--app-color);
+    border-radius: 26px;
+    box-shadow: 3px 1px 4px 1px var(--app-color-variant);
+    -webkit-box-shadow: 3px 1px 4px 1px var(--app-color-variant);
+    -moz-box-shadow: 3px 1px 4px 1px var(--app-color-variant);
+}
+
+.dashboardItem h3{
+    padding: 5px 12px 0 10px
 }

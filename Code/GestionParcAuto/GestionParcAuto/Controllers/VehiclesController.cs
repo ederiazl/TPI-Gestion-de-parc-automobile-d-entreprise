@@ -189,7 +189,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>Redirect to index with message</returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(Vehicle vehicle, IFormFile image)
+        public async Task<IActionResult> Create(Vehicle vehicle, IFormFile? image)
         {
             if (image != null)
             {
