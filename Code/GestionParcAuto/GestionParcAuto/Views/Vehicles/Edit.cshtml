@@ -9,14 +9,21 @@
     <div class="row mb-4">
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" />
+                <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" list="makes" />
+                <datalist id="makes">
+                    @foreach (string i in ViewBag.MakeSelectList)
+                    {
+                        <option>@i</option>
+                    }
+                </datalist>
                 <label asp-for="Make"></label>
                 <span asp-validation-for="Make" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" />
+                <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" oninput="updateModelDataList()" list="models" />
+                <datalist id="models"></datalist>
                 <label asp-for="Model"></label>
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
@@ -80,3 +87,44 @@
         <button id="createSubmit" type="submit" class="w-25 btn btn-lg btn-primary">Modifier</button>
     </div>
 </form>
+@section Scripts {
+    <script>
+        $(document).on('change', '#Model', function() {
+            var val = $(this).val();
+            $( "#models option" ).each(function(){
+                if($(this).val() == val){
+                    console.log($(this).val());
+                    $('#Type').val($(this).text());
+                }
+            });
+        });
+
+        const updateModelDataList = debounce(() => getDataModelDetaList(), 1000)
+
+        function debounce(func, timeout = 300){
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            };
+        }
+
+        function getDataModelDetaList(){
+            var model = $('#Model').val();
+            var make = $('#Make').val();
+
+            $.ajax({
+                url: '/Vehicles/GetModelList',
+                data: {
+                    make: make,
+                    model: model,
+                },
+                type: "GET",
+                success: function (data){
+                    $('#models').empty();
+                    data.forEach((elem) => $('#models').append("<option onclick='attributeVal(this)' value='" + elem.model + "'>" + elem.type + "</option>"));
+                }
+            });
+        }
+    </script>
+}

@@ -27,7 +27,8 @@ html {
 }
 
 body {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
+    background-color: var(--app-white) !important;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {

@@ -70,6 +70,7 @@ namespace GestionParcAuto.Controllers
                 return NotFound();
 
             CreateStatusSelectList(vm.Status);
+            CreateMakesList();
 
             return View(vm);
         }
@@ -234,6 +235,7 @@ namespace GestionParcAuto.Controllers
             if (!ModelState.IsValid)
             {
                 CreateStatusSelectList(dbVehicle.Status);
+                CreateMakesList();
                 return View(dbVehicle);
             }
 
