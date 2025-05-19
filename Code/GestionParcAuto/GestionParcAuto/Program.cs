@@ -15,12 +15,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .UseSeeding((context, _) => { })
     .UseAsyncSeeding(async (context, _, ct) =>
     {
-        var userManager = context.GetService<UserManager<User>>();
-        var roleManager = context.GetService<RoleManager<IdentityRole>>();
+        UserManager<User> userManager = context.GetService<UserManager<User>>();
+        RoleManager<IdentityRole> roleManager = context.GetService<RoleManager<IdentityRole>>();
 
         //Create Roles
-        var roleAdminExist = await roleManager.FindByNameAsync("Admin");
-        var roleEmployeeExist = await roleManager.FindByNameAsync("Employee");
+        IdentityRole? roleAdminExist = await roleManager.FindByNameAsync("Admin");
+        IdentityRole? roleEmployeeExist = await roleManager.FindByNameAsync("Employee");
 
         if (roleAdminExist == null)
             await roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
@@ -29,9 +29,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             await roleManager.CreateAsync(new IdentityRole() { Name = "Employee" });
 
         //Create user if no user created
-        var users = userManager.Users;
-        var defaultPwd = ".Admin1";
-        var defaultAdmin = new User
+        List<User> users = userManager.Users.ToList();
+        string defaultPwd = ".Admin1";
+        User defaultAdmin = new User
         {
             Email = "admin@GestParc.local",
             UserName = "admin@GestParc.local",

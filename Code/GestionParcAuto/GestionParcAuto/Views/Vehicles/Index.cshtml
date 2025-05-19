@@ -3,7 +3,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 @if(User.IsInRole("Admin")){
-    <div class="col-1">
+    <div class="col-auto">
         <a class="btn btn-primary" asp-action="Create">Ajouter un véhicule</a>
     </div>
 }

@@ -163,7 +163,7 @@ p{
 }
 
 .dashboardItem {
-    border: 3px solid var(--app-color);
+    border: 2px solid var(--app-color);
     border-radius: 26px;
     box-shadow: 3px 1px 4px 1px var(--app-color-variant);
     -webkit-box-shadow: 3px 1px 4px 1px var(--app-color-variant);
