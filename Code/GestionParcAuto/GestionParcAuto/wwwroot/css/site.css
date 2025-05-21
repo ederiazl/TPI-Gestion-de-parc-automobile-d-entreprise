@@ -5,6 +5,10 @@
     --app-color-variant: #4E9BC2;
     --app-color-dark: #2C4957;
     --app-fade: linear-gradient(171deg, var(--app-color), var(--app-color-x));
+    --bs-link-color: var(--app-color);
+    --bs-pagination-active-bg: var(--app-color-variant);
+    --bs-pagination-active-border-color: var(--app-color-variant);
+    --bs-link-color: var(--app-color);
 }
 
 html {
@@ -172,4 +176,18 @@ p{
 
 .dashboardItem h3{
     padding: 5px 12px 0 10px
+}
+
+.nav-pills {
+    --bs-nav-pills-border-radius: var(--bs-border-radius);
+    --bs-nav-pills-link-active-color: #fff;
+    --bs-nav-pills-link-active-bg: var(--app-color-variant);
+}
+
+.nav-link{
+
+}
+
+.nav-link > .active{
+
 }
