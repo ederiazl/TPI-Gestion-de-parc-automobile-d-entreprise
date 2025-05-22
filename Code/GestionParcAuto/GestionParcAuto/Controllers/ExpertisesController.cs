@@ -245,7 +245,7 @@ namespace GestionParcAuto.Controllers
 
         private void CreateVehicleSelectList(int? selectedId)
         {
-            ViewBag.VehicleSelectList = new SelectList(_context.Vehicles, "Id", "Registration", selectedId);
+            ViewBag.VehicleSelectList = new SelectList(_context.Vehicles.Where(x => string.IsNullOrEmpty(x.Registration)), "Id", "Registration", selectedId);
         }
 
         private void CreateEmployeeSelectList(string? selectedId)
