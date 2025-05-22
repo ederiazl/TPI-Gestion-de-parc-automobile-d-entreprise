@@ -8,6 +8,7 @@ using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using GestionParcAuto.Classes.CarData;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestionParcAuto.Controllers
 {
@@ -109,7 +110,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>Result with list of expertises</returns>
         public async Task<IActionResult> GetExpertises(int id)
         {
-            var expertises = _context.Vehicles.Where(x => x.Id == id).Include(x => x.Expertises).ThenInclude(x => x.User).SelectMany(x => x.Expertises).Select(x => new { x.Id, x.Date, x.Status, user = x.User.FullName}).ToList();
+            var expertises = _context.Vehicles.Where(x => x.Id == id).Include(x => x.Expertises).ThenInclude(x => x.User).SelectMany(x => x.Expertises).Select(x => new { x.Id, Date = x.Date.ToString("dd.MM.yyyy HH:mm"), x.Status, user = x.User.FullName}).ToList();
             return new JsonResult(expertises);
         }
 
