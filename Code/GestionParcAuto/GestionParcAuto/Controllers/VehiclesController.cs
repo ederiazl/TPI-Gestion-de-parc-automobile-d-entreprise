@@ -189,7 +189,7 @@ namespace GestionParcAuto.Controllers
         /// <returns>Redirect to index with message</returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(Vehicle vehicle, IFormFile? image)
+        public async Task<IActionResult> Create(Vehicle vehicle, [AllowExtensions("pjp,jpg,pjpeg,jpeg,jfif,png,svgz,svg,gif", ErrorMessage = "Le type de fichier sélectionné n'est pas valide.")] IFormFile? image)
         {
             if (image != null)
             {
@@ -218,7 +218,7 @@ namespace GestionParcAuto.Controllers
         /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Edit(Vehicle vehicle, IFormFile? image)
+        public async Task<IActionResult> Edit(Vehicle vehicle, [AllowExtensions("pjp,jpg,pjpeg,jpeg,jfif,png,svgz,svg,gif", ErrorMessage = "Le type de fichier sélectionné n'est pas valide.")]  IFormFile? image)
         {
             Vehicle? dbVehicle = _context.Vehicles.Where(x => x.Id == vehicle.Id).First();
 

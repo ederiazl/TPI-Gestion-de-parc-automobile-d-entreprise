@@ -51,7 +51,7 @@
         </div>
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Image" class="form-control" aria-required="true" placeholder="Image" type="file"/>
+                <input asp-for="Image" class="form-control" aria-required="true" placeholder="Image" type="file" accept="image/jpeg, image/png, image/svg+xml, image/gif"/>
                 <label asp-for="Image"></label>
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
