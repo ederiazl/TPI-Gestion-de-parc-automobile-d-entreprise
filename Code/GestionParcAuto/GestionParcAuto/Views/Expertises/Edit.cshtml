@@ -9,13 +9,13 @@
     <div class="row mb-4">
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Date" class="form-control" aria-required="true" placeholder="Marque" />
-                <label asp-for="Date"></label>
+                <input asp-for="Date" class="form-control" aria-required="true" placeholder="Date" required />
+                <label class="required" asp-for="Date"></label>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
-            <select asp-for="VehicleId" class="selectpicker" asp-items="ViewBag.VehicleSelectList" data-live-search="true">
+            <select asp-for="VehicleId" class="selectpicker" asp-items="ViewBag.VehicleSelectList" data-live-search="true" required>
                 <option value="@null">Véhicule</option>
             </select>
             <span asp-validation-for="VehicleId" class="text-danger"></span>

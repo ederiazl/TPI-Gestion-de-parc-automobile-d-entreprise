@@ -9,22 +9,22 @@
     <div class="row mb-4">
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" list="makes" />
+                <input asp-for="Make" class="form-control" aria-required="true" placeholder="Marque" list="makes" required />
                 <datalist id="makes">
                     @foreach (string i in ViewBag.MakeSelectList)
                     {
                         <option>@i</option>
                     }
                 </datalist>
-                <label asp-for="Make"></label>
+                <label class="required" asp-for="Make"></label>
                 <span asp-validation-for="Make" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-floating mb-3">
-                <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" oninput="updateModelDataList()" list="models" />
+                <input asp-for="Model" class="form-control" aria-required="true" placeholder="Modèle" oninput="updateModelDataList()" list="models" required />
                 <datalist id="models"></datalist>
-                <label asp-for="Model"></label>
+                <label class="required" asp-for="Model"></label>
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
         </div>
