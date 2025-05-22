@@ -74,9 +74,14 @@
                         success: function (data){
                             table.ajax.reload(null, false);
                             Swal.fire({
+                                icon: 'success',
                                 title: data.message,
-                                confirmButtonText: "OK",
-                                confirmButtonColor: "#81D5FF"
+                                customClass: {
+                                    popup: 'colored-toast',
+                                },
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
                             });
                         }
                     });
