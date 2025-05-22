@@ -5,10 +5,14 @@
     --app-color-variant: #4E9BC2;
     --app-color-dark: #2C4957;
     --app-fade: linear-gradient(171deg, var(--app-color), var(--app-color-x));
-    --bs-link-color: var(--app-color);
-    --bs-pagination-active-bg: var(--app-color-variant);
-    --bs-pagination-active-border-color: var(--app-color-variant);
-    --bs-link-color: var(--app-color);
+    --bs-link-color: var(--app-color-variant);
+}
+
+.pagination {
+    --bs-pagination-active-color: #000;
+    --bs-pagination-active-bg: var(--app-color);
+    --bs-pagination-active-border-color: var(--app-color);
+    --bs-pagination-focus-box-shadow: none;
 }
 
 html {
@@ -33,6 +37,9 @@ html {
 body {
     margin-bottom: 0px;
     background-color: var(--app-white) !important;
+}
+main {
+    height: -webkit-fill-available;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -184,10 +191,7 @@ p{
     --bs-nav-pills-link-active-bg: var(--app-color-variant);
 }
 
-.nav-link{
-
-}
-
-.nav-link > .active{
-
+.required::after {
+    content: '*' !important;
+    color: red;
 }

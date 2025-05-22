@@ -108,10 +108,15 @@
 
             if(message != null){
                 Swal.fire({
-                    title: message.value.title,
-                    text: message.value.text,
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#81D5FF"
+                icon: 'success',
+                title: message.value.title,
+                text: message.value.text,
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
                 });
             }
         });
