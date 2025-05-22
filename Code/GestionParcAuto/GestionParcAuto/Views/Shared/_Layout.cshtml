@@ -13,73 +13,69 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @RenderSection("Links", false)
 </head>
-<body>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-auto px-sm-2 px-0 bg-dark">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <img src="~/icon.svg" alt="icon" height="30" class="me-1"/>
-                        <span class="fs-4">Gestion de parc</span>
-                    </a>
-                    <hr>
+<body class="vh-100">
+    <main class="d-flex">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark vh-100">
+            <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <img src="~/icon.svg" alt="icon" height="30" class="me-1" />
+                <span class="fs-4">Gestion de parc</span>
+            </a>
+            <hr>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <ul class="nav nav-pills flex-column mb-auto">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a asp-controller="Home" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Tableau de bord</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a asp-controller="Vehicles" asp-action="Index" class="nav-link text-white">
+                            Véhicules
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Expertises" asp-action="Index" class="nav-link text-white">
+                            Expertises
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a asp-controller="Users" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Gestion des utilisateurs</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Roles" asp-action="Index" class="nav-link text-white" title="Gestion des roles">Gestion des rôles</a>
+                        </li>
+                    }
+                </ul>
+            }
+            <hr>
+            <div class="dropdown mb-4">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <strong>@User.Identity?.Name</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <ul class="nav nav-pills flex-column mb-auto">
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li>
-                                    <a asp-controller="Home" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Tableau de bord</a>
-                                </li>
-                            }
-                            <li class="nav-item">
-                                <a asp-controller="Vehicles" asp-action="Index" class="nav-link text-white">
-                                    Véhicules
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-controller="Expertises" asp-action="Index" class="nav-link text-white">
-                                    Expertises
-                                </a>
-                            </li>
-                            @if(User.IsInRole("Admin")){
-                                <li>
-                                    <a asp-controller="Users" asp-action="Index" class="nav-link text-white" title="Gestion des utilisateurs">Gestion des utilisateurs</a>
-                                </li>
-                                <li>
-                                    <a asp-controller="Roles" asp-action="Index" class="nav-link text-white" title="Gestion des roles">Gestion des rôles</a>
-                                </li>
-                            }
-                        </ul>
+                        <li>
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Vehicles", new { area = "" })">
+                                <button type="submit" class="dropdown-item">Déconnexion</button>
+                            </form>
+                        </li>
                     }
-                    <hr>
-                    <div class="dropdown mb-4">
-                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <strong>@User.Identity?.Name</strong>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <li>
-                                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Vehicles", new { area = "" })">
-                                        <button type="submit" class="dropdown-item">Déconnexion</button>
-                                    </form>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
+                </ul>
             </div>
-            <main class="col d-flex flex-column customContainer">
-                @RenderBody()
-            </main>
         </div>
-    </div>
+        <div class="d-flex flex-column customContainer p-3 w-100 overflow-y-scroll">
+            @RenderBody()
+        </div>
+    </main>
 
     @await RenderSectionAsync("Modal", required: false)
 
