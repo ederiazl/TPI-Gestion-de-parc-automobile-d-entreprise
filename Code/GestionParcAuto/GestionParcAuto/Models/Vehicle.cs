@@ -8,10 +8,10 @@ namespace GestionParcAuto.Models
         [Display(Name = "Image")]
         public byte[]? Image { get; set; }
         [Display(Name = "Marque")]
-        [Required(ErrorMessage = "Le camp {0} est requis")]
+        [Required(ErrorMessage = "Le champ {0} est requis")]
         public string Make { get; set; }
         [Display(Name = "Modèle")]
-        [Required(ErrorMessage = "Le camp {0} est requis")]
+        [Required(ErrorMessage = "Le champ {0} est requis")]
         public string Model { get; set; }
         [Display(Name = "Type")]
         public string? Type { get; set; }
