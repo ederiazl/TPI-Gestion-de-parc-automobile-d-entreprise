@@ -1,10 +1,10 @@
 ﻿@model GestionParcAuto.Models.Vehicle
 @{
-    ViewData["Title"] = "Détails véhicule - " + Model.Registration;
+    ViewData["Title"] = "Détails véhicule - " + $"{Model.Registration ?? $"{Model.Make} {Model.Model}"}";
 }
 
 <h1>@ViewData["Title"]</h1>
-<a class="mb-5" asp-action="Index">Retour à la liste</a>
+<a class="mb-2" asp-action="Index">Retour à la liste</a>
 <div class="row mb-1">
     <div class="col-4">
         @if(Model.Image == null)
