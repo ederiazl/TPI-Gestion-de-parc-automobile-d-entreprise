@@ -28,7 +28,7 @@ namespace GestionParcAuto.Controllers
 
         public IActionResult GetNextExpertises() => new JsonResult(_context.Expertises.Where(x => x.Date >= DateTime.Now && x.Status == false).OrderBy(x => x.Date).Take(10).Include(x => x.Vehicle).Include(x => x.User).Select(x => new {x.Id, Date = x.Date.ToString("dd.MM.yyyy HH:mm"), x.Vehicle.Make, x.Vehicle.Model, x.Vehicle.Registration, User = x.User.FullName ?? ""}).ToList());
 
-        public IActionResult GetLastVehicles() => new JsonResult(_context.Vehicles.Where(x => x.Status == VehicleStatus.NORMAL).OrderByDescending(x => x.RegistrationDate).Take(10).Include(x => x.Expertises).Select(x => new { x.Id, x.Make, x.Model, x.Registration, x.Mileage, NextExpertise = x.Expertises.Select(y => y.Date).Max().ToString("dd.MM.yyyy HH:mm") ?? "" }));
+        public IActionResult GetLastVehicles() => new JsonResult(_context.Vehicles.Where(x => x.Status == VehicleStatus.NORMAL).OrderByDescending(x => x.Id).Take(10).Include(x => x.Expertises).Select(x => new { x.Id, x.Make, x.Model, x.Registration, x.Mileage, NextExpertise = x.Expertises.Select(y => y.Date).Max().ToString("dd.MM.yyyy HH:mm") ?? "" }));
 
         #endregion
     }
